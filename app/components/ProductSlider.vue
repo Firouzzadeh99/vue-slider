@@ -2,10 +2,6 @@
 import { ref, onMounted, onUnmounted, nextTick } from "vue";
 
 const props = defineProps({
-  title: {
-    type: String,
-    default: "اسلایدر محصولات",
-  },
   items: {
     type: Array,
     required: true,
