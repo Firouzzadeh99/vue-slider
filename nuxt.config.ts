@@ -2,10 +2,12 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import { defineNuxtConfig } from 'nuxt/config'
 
-const rawBase = "my-slider-project"
-const normalizedBaseURL = rawBase
-  ? rawBase.startsWith('/') ? rawBase : `/${rawBase}`
-  : '/'
+// Normalize base URL (used for GitHub Pages). Default to '/' for dev.
+const rawBase = process.env.NUXT_APP_BASE_URL || '/'
+const normalizedBaseURL = (() => {
+  const withLeading = rawBase.startsWith('/') ? rawBase : `/${rawBase}`
+  return withLeading.endsWith('/') ? withLeading : `${withLeading}/`
+})()
 
 export default defineNuxtConfig({
   devtools: { enabled: true },
@@ -23,5 +25,9 @@ export default defineNuxtConfig({
   },
   nitro: {
     preset: 'github-pages',
+    prerender: {
+      crawlLinks: false,
+      routes: ['/', '/200.html', '/404.html'],
+    },
   },
 })
